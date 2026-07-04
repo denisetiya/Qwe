@@ -1,5 +1,6 @@
 # QWE Framework
 
+  <img src="logo.png" alt="Qwe Framework Logo" width="180" height="180">
 > High-performance, zero-dependency TypeScript backend framework powered by uWebSockets.js
 
 QWE adalah framework backend modern untuk Node.js yang mengutamakan performa tinggi, kemudahan penggunaan, dan arsitektur yang terstruktur. Dibangun di atas uWebSockets.js untuk kecepatan maksimal dengan API yang mirip NestJS namun tanpa decorator.
