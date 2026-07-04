@@ -1,0 +1,80 @@
+{
+  "name": "qwe",
+  "version": "1.0.0",
+  "description": "High-performance TypeScript backend framework — zero dependencies, uWebSockets.js powered",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "qwe": "./dist/cli/cli.js"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "lint": "eslint src/",
+    "format": "prettier --write 'src/**/*.ts'",
+    "typecheck": "tsc --noEmit",
+    "test": "node --import tsx --test src/**/*.test.ts tests/**/*.test.ts",
+    "test:watch": "node --import tsx --test --watch src/**/*.test.ts tests/**/*.test.ts",
+    "clean": "rm -rf dist"
+  },
+  "keywords": [
+    "qwe",
+    "backend",
+    "framework",
+    "typescript",
+    "uws",
+    "uwebsockets",
+    "high-performance",
+    "api",
+    "rest",
+    "orm",
+    "validation"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "peerDependencies": {
+    "uWebSockets.js": "^20.0.0"
+  },
+  "peerDependenciesMeta": {
+    "pg": {
+      "optional": true
+    },
+    "mysql2": {
+      "optional": true
+    },
+    "better-sqlite3": {
+      "optional": true
+    },
+    "tedious": {
+      "optional": true
+    },
+    "mongodb": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@types/node": "^26.1.0",
+    "@typescript-eslint/eslint-plugin": "^8.62.1",
+    "@typescript-eslint/parser": "^8.62.1",
+    "eslint": "^10.6.0",
+    "prettier": "^3.9.4",
+    "tsx": "^4.23.0",
+    "typescript": "^6.0.3",
+    "uWebSockets.js": "github:uNetworking/uWebSockets.js#v20.68.0"
+  }
+}
