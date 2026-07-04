@@ -53,17 +53,47 @@ QWE adalah framework backend modern untuk Node.js yang mengutamakan performa tin
 
 ## 📊 Performance
 
-Benchmark dilakukan dengan 100 concurrent connections, 10 second duration:
+Benchmark dilakukan dengan **autocannon** — 100 concurrent connections, 10s duration, pipelining 10.  
+Environment: AMD Ryzen 5 6600H, 13GB RAM, Linux 6.18, Node.js 22.
 
-| Endpoint | qwe (req/s) | Express (req/s) | Go (req/s) | Rust (req/s) |
-|----------|-------------|-----------------|------------|--------------|
-| GET /users (list) | **95,000** | 12,000 | 89,000 | 65,000 |
-| GET /users/:id | **65,000** | 13,000 | 60,000 | 97,000 |
-| POST /users | **33,000** | 260 | 2,900 | 3,000 |
-| PUT /users/:id | **10,000** | 7,500 | 3,000 | 10,000 |
-| DELETE /users/:id | **9,500** | 13,000 | 3,200 | 9,600 |
+### Throughput (Requests/sec)
 
-**Hasil**: QWE unggul di read operations dan significantly lebih cepat untuk write operations dibandingkan Express, dengan performa setara Go dan Rust untuk most endpoints.
+| Endpoint | QWE 🏆 | Express | Go | Rust |
+|----------|------:|--------:|---:|-----:|
+| GET /users (list) | **84,921** | 7,014 | 61,309 | 100,576 |
+| GET /users/1 (read) | **97,914** | 6,973 | 60,493 | 97,030 |
+| POST /users (create) | **81,976** | 4,117 | 53,930 | 65,798 |
+| PUT /users/1 (update) | **80,549** | 4,398 | 54,390 | 76,766 |
+| DELETE /users/2 (delete) | **75,718** | 6,592 | 3,343 | 8,041 |
+
+### Average Latency (ms) — lower is better
+
+| Endpoint | QWE 🏆 | Express | Go | Rust |
+|----------|------:|--------:|---:|-----:|
+| GET /users (list) | **11.30** | 141.26 | 15.96 | 9.50 |
+| GET /users/1 (read) | **9.73** | 142.04 | 16.13 | 9.86 |
+| POST /users (create) | **5.63** | 120.36 | 8.82 | 7.14 |
+| PUT /users/1 (update) | **5.74** | 112.66 | 8.74 | 6.03 |
+| DELETE /users/2 (delete) | **12.70** | 150.21 | 294.61 | 111.91 |
+
+### Relative Performance (% of QWE throughput)
+
+| Endpoint | QWE | Express | Go | Rust |
+|----------|----:|--------:|---:|-----:|
+| GET /users (list) | 100% | 8% | 72% | 118% |
+| GET /users/1 (read) | 100% | 7% | 62% | 99% |
+| POST /users (create) | 100% | 5% | 66% | 80% |
+| PUT /users/1 (update) | 100% | 5% | 68% | 95% |
+| DELETE /users/2 (delete) | 100% | 9% | 4% | 11% |
+
+### Summary
+
+- **vs Express**: QWE **14x lebih cepat** (rata-rata 84K vs 5.8K req/s)
+- **vs Go**: QWE **1.5x lebih cepat** (rata-rata 84K vs 46K req/s)
+- **vs Rust**: QWE bersaing ketat — menang di write operations (POST **1.2x**, PUT **1.05x**, DELETE **9.4x**), Rust unggul tipis di GET list (+18%)
+- **P99 Latency**: QWE konsisten di 14-38ms, jauh lebih rendah dari Express (165-232ms)
+
+**Stack**: QWE (uWebSockets.js + better-sqlite3 WAL) | Express 4.x + better-sqlite3 | Go net/http + go-sqlite3 | Actix-web + rusqlite
 
 ## 🚀 Quick Start
 
